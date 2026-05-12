@@ -37,13 +37,12 @@
       };
     in
     flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = import inputs.systems;
+      systems = builtins.filter (s: s != "x86_64-darwin") (import inputs.systems);
       imports = [
         # keep-sorted start
         ./nix/treefmt.nix
         allSystems
         inputs.tools.flakeModules.checkBuildAll
-        # inputs.tools.conventional-commit
         inputs.treefmt-nix.flakeModule
         # keep-sorted end
       ];
